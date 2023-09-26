@@ -33,19 +33,19 @@ def put_names(excel_file, tds_file):
         current_name = row['current_name']
         new_name = row['new_name']
 
-        # Buscar la primera etiqueta <column> con el atributo caption igual al nombre actual
+        # Buscar la columna existente con el nombre actual
         column = root.find('.//column[@caption="{}"]'.format(current_name))
 
         if column is not None:
-            # Si se encuentra la etiqueta <column>, actualizar su atributo caption
+            # Si se encuentra una columna con el nombre actual, reemplazar el atributo "caption"
             column.set('caption', new_name)
         else:
-            # Si no se encuentra la etiqueta <column>, crear una nueva y agregarla después de la primera etiqueta <column> existente
+            # Si no se encuentra una columna con el nombre actual, crear una nueva columna
+            # y agregarla después de la primera columna existente
             first_column = root.find('.//column')
             if first_column is not None:
-                parent = first_column.getparent()
-                new_column = ET.Element('column', caption=new_name, datatype='integer', name='[{}]'.format(current_name), role='measure', type='quantitative')
-                parent.insert(parent.index(first_column) + 1, new_column)
+                new_column = ET.Element('column', {'caption': new_name, 'datatype': 'integer', 'name': '[{}]'.format(current_name), 'role': 'measure', 'type': 'quantitative'})
+                root.insert(root.index(first_column) + 1, new_column)
 
     return tree
 
