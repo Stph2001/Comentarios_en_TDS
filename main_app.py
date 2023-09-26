@@ -43,8 +43,9 @@ def put_names(excel_file, tds_file):
             # Si no se encuentra la etiqueta <column>, crear una nueva y agregarla después de la primera etiqueta <column> existente
             first_column = root.find('.//column')
             if first_column is not None:
+                parent = first_column.getparent()
                 new_column = ET.Element('column', caption=new_name, datatype='integer', name='[{}]'.format(current_name), role='measure', type='quantitative')
-                root.insert(root.index(first_column) + 1, new_column)
+                parent.insert(parent.index(first_column) + 1, new_column)
 
     return tree
 
