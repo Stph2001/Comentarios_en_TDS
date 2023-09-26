@@ -45,7 +45,7 @@ def put_names(excel_file, tds_file):
             first_column = root.find('.//column')
             if first_column is not None:
                 new_column = ET.Element('column', {'caption': new_name, 'datatype': 'integer', 'name': '[{}]'.format(current_name), 'role': 'measure', 'type': 'quantitative'})
-                root.insert(root.index(first_column) + 1, new_column)
+                root.insert(list(root).index(first_column) + 1, new_column)
 
     return tree
 
